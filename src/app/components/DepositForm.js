@@ -54,15 +54,16 @@ export default function DepositForm() {
     // if we are working via devnet we can use the helper to get the peg address, which is associated with the first wallet
     const pegAccount = await testnet.getBitcoinAccount(WALLET_00);
     const pegAddress = pegAccount.tr.address;
-
+    const fee = await testnet.estimateFeeRate("low");
+    console.log(fee)
     const tx = await sbtcDepositHelper({
       // comment this line out if working via devnet
       // network: TESTNET,
       pegAddress,
-      stacksAddress: userData.profile.stxAddress.testnet,
+      stacksAddress: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
       amountSats: satoshis,
       // we can use the helper to get an estimated fee for our transaction
-      feeRate: await testnet.estimateFeeRate("low"),
+      feeRate: 2,
       // the helper will automatically parse through these and use one or some as inputs
       utxos,
       // where we want our remainder to be sent. UTXOs can only be spent as is, not divided, so we need a new input with the difference between our UTXO and how much we want to send
